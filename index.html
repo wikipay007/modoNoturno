@@ -1,44 +1,214 @@
 <!DOCTYPE html>
-<html lang="eu">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alou</title>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil</title>
     <style>
-       
+      :root {
+        --primary: #6366f1;
+        --primary-light: #818cf8;
+        --primary-dark: #4f46e5;
+        --background: #f9fafb;
+        --card-bg: #ffffff;
+        --text: #1f2937;
+        --text-light: #6b7280;
+        --border: #e5e7eb;
+        --radius: 12px;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .dark-theme {
+        --primary: #817cf8;
+        --primary-light: #a5b4fc;
+        --primary-dark: #6366f1;
+        --background: #1f2937;
+        --card-bg: #2d3748;
+        --text: #f3f4f6;
+        --text-light: #d1d5db;
+        --border: #4b5563;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--background);
+        color: var(--text);
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 600px;
+        width: 100%;
+      }
+
+      #theme-toggle {
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        background-color: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+
+      #theme-toggle:hover {
+        background-color: var(--primary-dark);
+      }
+
+      .card {
+        background-color: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        padding: 20px;
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .avatar {
+        font-size: 50px;
+        margin-right: 20px;
+      }
+
+      .user-info h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .user-info p {
+        margin: 0;
+        color: var(--text-light);
+        font-size: 14px;
+      }
+
+      .tab-list {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .tab-list button {
+        padding: 10px 20px;
+        background-color: var(--primary-light);
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .tab-list button:hover {
+        background-color: var(--primary-dark);
+      }
+
+      .tab-content div {
+        margin-bottom: 15px;
+      }
+
+      .tab-content span {
+        display: block;
+        font-size: 14px;
+        color: var(--text-light);
+      }
+
+      .tab-content button {
+        padding: 8px 16px;
+        background-color: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .tab-content button:hover {
+        background-color: var(--primary-dark);
+      }
     </style>
-</head>
-
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div id="piada"></div>
-        <div id="img"></div>
-        
-        <button id="btnPiada">Buscar</button>
+      <button id="theme-toggle">🌙 Dark Mode</button>
+
+      <div class="card" id="user-card">
+        <div class="card-header">
+          <div class="avatar">
+            <span>🧔‍♂️</span>
+          </div>
+          <div class="user-info">
+            <h2>User Name</h2>
+            <p>@username</p>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="tab-list">
+            <button>Contato</button>
+            <button>Endereço</button>
+          </div>
+
+          <div class="tab-content">
+            <div>
+              <span>Email:</span>
+              <span>username@gmail.com</span>
+            </div>
+
+            <div>
+              <span>Telefone:</span>
+              <span>11 99209-2002</span>
+              <button>Copiar</button>
+            </div>
+
+            <div>
+              <span>Website:</span>
+              <span>website.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
-<script>
 
-    let piada = document.getElementById("piada")
-    let imagemDois = document.getElementById("img")
+    <script>
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const savedTheme = localStorage.getItem("theme");
 
+      if (savedTheme === "dark") {
+        document.documentElement.classList.add("dark-theme");
+        themeToggleBtn.innerText = "☀️ Light Mode";
+      }
 
-    let btnPiada = document.getElementById("btnPiada")
+      themeToggleBtn.addEventListener("click", () => {
+        const isDark = document.documentElement.classList.contains("dark-theme");
 
-    btnPiada.addEventListener("click", () => {
-    fetch(`https://api.chucknorris.io/jokes/random`)
-        .then((response) => {
-            return response.json();
-        })
-        .then((dadosPiada) => { // Renomeando a variável para evitar conflito
-            console.log(dadosPiada);
-            imagemDois.innerHTML = `<img src="${dadosPiada.icon_url}" alt="">`
-            piada.innerText = `${dadosPiada.value}`; // Exibe a piada no elemento HTML
-        });
-});
-
-
-</script>
-
+        if (isDark) {
+          document.documentElement.classList.remove("dark-theme");
+          localStorage.setItem("theme", "light");
+          themeToggleBtn.innerText = "🌙 Dark Mode";
+        } else {
+          document.documentElement.classList.add("dark-theme");
+          localStorage.setItem("theme", "dark");
+          themeToggleBtn.innerText = "☀️ Light Mode";
+        }
+      });
+    </script>
+  </body>
 </html>
