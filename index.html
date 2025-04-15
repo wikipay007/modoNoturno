@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="eu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alou</title>
+    <style>
+       
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="piada"></div>
+        <div id="img"></div>
+        
+        <button id="btnPiada">Buscar</button>
+    </div>
+</body>
+<script>
+
+    let piada = document.getElementById("piada")
+    let imagemDois = document.getElementById("img")
+
+
+    let btnPiada = document.getElementById("btnPiada")
+
+    btnPiada.addEventListener("click", () => {
+    fetch(`https://api.chucknorris.io/jokes/random`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((dadosPiada) => { // Renomeando a variável para evitar conflito
+            console.log(dadosPiada);
+            imagemDois.innerHTML = `<img src="${dadosPiada.icon_url}" alt="">`
+            piada.innerText = `${dadosPiada.value}`; // Exibe a piada no elemento HTML
+        });
+});
+
+
+</script>
+
+</html>
